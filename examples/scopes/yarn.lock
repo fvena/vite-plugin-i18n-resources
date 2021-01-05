@@ -21,10 +21,6 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@didor/vite-plugin-i18n-resources@link:../..":
-  version "0.0.0"
-  uid ""
-
 "@intlify/core-base@9.0.0-beta.18":
   version "9.0.0-beta.18"
   resolved "https://registry.yarnpkg.com/@intlify/core-base/-/core-base-9.0.0-beta.18.tgz#cd30aa54562d71c75e8f1d3ea4baa22e662a1004"
@@ -490,6 +486,10 @@ util-deprecate@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
+
+"vite-plugin-i18n-resources@link:../..":
+  version "0.0.0"
+  uid ""
 
 vite@^2.0.0-beta.5:
   version "2.0.0-beta.5"

@@ -46,9 +46,9 @@ This plugin finds all language files within a path and groups them by language s
 ## Install
 
 ```bash
-yarn add --dev @didor/vite-plugin-i18n-resources
+yarn add --dev vite-plugin-i18n-resources
 
-npm i -D @didor/vite-plugin-i18n-resources
+npm i -D vite-plugin-i18n-resources
 ```
 
 ## Getting Started
@@ -58,7 +58,7 @@ npm i -D @didor/vite-plugin-i18n-resources
 Import this plugin and set the path of translation files.
 
 ```js
-import i18nResources from '@didor/vite-plugin-i18n-resources';
+import i18nResources from 'vite-plugin-i18n-resources';
 
 export default {
   plugins: [
@@ -136,7 +136,6 @@ Now, you can use a translation message by:
   ...
 </template>
 ```
-
 
 ## Todos
 

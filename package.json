@@ -1,6 +1,6 @@
 {
-  "name": "@didor/vite-plugin-i18n-resources",
-  "version": "1.0.0",
+  "name": "vite-plugin-i18n-resources",
+  "version": "1.0.1",
   "description": "A vite plugin to load i18n translation message files",
   "main": "dist/index.js",
   "files": [
@@ -26,8 +26,7 @@
   "homepage": "https://github.com/fvena/vite-plugin-i18n-resources",
   "bugs": "https://github.com/fvena/vite-plugin-i18n-resources/issues",
   "scripts": {
-    "build": "babel index.js -d dist",
-    "release": "npm run build && lerna publish --conventional-commits"
+    "build": "babel index.js -d dist"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",
