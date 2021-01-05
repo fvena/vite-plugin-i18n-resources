@@ -1,0 +1,37 @@
+{
+  "name": "@didor/vite-plugin-i18n-resources",
+  "version": "1.0.0",
+  "description": "A vite plugin to load i18n translation message files",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "i18n",
+    "plugin",
+    "vite",
+    "vitejs",
+    "vue",
+    "vue-i18n"
+  ],
+  "author": {
+    "name": "Francisco Vena",
+    "email": "fvena32@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fvena/vite-plugin-i18n-resources"
+  },
+  "homepage": "https://github.com/fvena/vite-plugin-i18n-resources",
+  "bugs": "https://github.com/fvena/vite-plugin-i18n-resources/issues",
+  "scripts": {
+    "build": "babel index.js -d dist",
+    "release": "npm run build && lerna publish --conventional-commits"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11"
+  }
+}
