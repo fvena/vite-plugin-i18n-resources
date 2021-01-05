@@ -5,6 +5,42 @@ In small applications, have single json file per language may be sufficient, but
 
 You may even want to move these files to different locations.
 
+All translation files in the same folder - [example](examples/locales_folder/)
+
+    src
+    ├── ...
+    ├── locales
+    │   ├── about.en.json
+    │   ├── about.es.json
+    │   ├── about.fr.json
+    │   ├── home.en.json
+    │   ├── home.es.json
+    │   ├── home.fr.json
+    │   └── ...
+    └── ...
+
+Translation Files split by scopes - [example](examples/scopes/)
+
+    src
+    ├── ...
+    ├── pages
+    │   ├── about
+    │   │   ├── ...
+    │   │   ├── locales
+    │   │   │   ├── about.en.json
+    │   │   │   ├── about.es.json
+    │   │   │   └── about.fr.json
+    │   │   └── ...
+    │   ├── home
+    │   │   ├── ...
+    │   │   ├── locales
+    │   │   │   ├── home.en.json
+    │   │   │   ├── home.es.json
+    │   │   │   └── home.fr.json
+    │   │   └── ...
+    │   └── ...
+    └── ...
+
 This plugin finds all language files within a path and groups them by language so that you can set them on your vue-i18n instance.
 
 ## Install
@@ -101,59 +137,8 @@ Now, you can use a translation message by:
 </template>
 ```
 
-## Setup Examples
-
-In the examples folder you can see several complete examples with different structures.
-
-[All translation files in the same folder](examples/locales_folder/)
-
-    src
-    ├── ...
-    ├── locales
-    │   ├── about.en.json
-    │   ├── about.es.json
-    │   ├── about.fr.json
-    │   ├── home.en.json
-    │   ├── home.es.json
-    │   ├── home.fr.json
-    │   └── ...
-    └── ...
-
-[Translation Files split by scopes](examples/scopes/)
-
-    src
-    ├── ...
-    ├── pages
-    │   ├── about
-    │   │   ├── ...
-    │   │   ├── locales
-    │   │   │   ├── about.en.json
-    │   │   │   ├── about.es.json
-    │   │   │   └── about.fr.json
-    │   │   └── ...
-    │   ├── home
-    │   │   ├── ...
-    │   │   ├── locales
-    │   │   │   ├── home.en.json
-    │   │   │   ├── home.es.json
-    │   │   │   └── home.fr.json
-    │   │   └── ...
-    │   └── ...
-    └── ...
-
-```js
-import i18nResources from '@didor/vite-plugin-i18n-resources';
-
-export default {
-  plugins: [
-    i18nResources({
-      path: 'src/pages',
-    }),
-  ]
-}
-```
 
 ## Todos
 
-* Better docs
-* Basic test coverage
+- [ ] Better docs
+- [ ] Basic test coverage
