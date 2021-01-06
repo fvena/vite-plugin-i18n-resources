@@ -142,11 +142,22 @@ Now, you can use a translation message by:
 The file names of the translation files should have always the same format:
 
 ```
-sectionName.locale.json
+{namespaces}.{locale}.json
 
 home.en.json
 about.en.json
 cart.de.json
+```
+
+## VS Code i18n Ally extension
+
+If you use i18n ALLY, you can configure it as follows:
+
+```
+"i18n-ally.localesPaths": [ "src/locales" ],
+"i18n-ally.namespace": true,
+"i18n-ally.pathMatcher": "{namespaces}.{locale}.json",
+"i18n-ally.keystyle": "nested",
 ```
 
 ## Todos
