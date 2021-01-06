@@ -7,7 +7,7 @@ const { readdirSync, readFileSync } = require("fs");
  * @param {String} type - Files type
  * @return {Array} - Array with the files paths
  */
-const getFiles = (path = "./", type = "json") => {
+function getFiles(path = "./", type = "json") {
   try {
     const entries = readdirSync(path, { withFileTypes: true });
 
@@ -37,7 +37,7 @@ const getFiles = (path = "./", type = "json") => {
   } catch (error) {
     throw new Error(`[vite-plugin-i18n-resources]: ${error.message}`);
   }
-};
+}
 
 /**
  * Finds all translation message files within the specified path
@@ -46,28 +46,27 @@ const getFiles = (path = "./", type = "json") => {
  * @param {Array} files - Array with the files paths
  * @return {Object} - Messages
  */
-const getMessages = (files) =>
-  files.reduce((messages, file) => {
-    try {
-      const matched = file.match(/(.+\/)*(.+)\.(.+)\.json/i);
+function getMessages(messages, file) {
+  try {
+    const matched = file.match(/(.+\/)*(.+)\.(.+)\.json/i);
 
-      if (matched && matched.length > 1) {
-        const lang = matched[3];
-        const section = matched[2];
+    if (matched && matched.length > 1) {
+      const lang = matched[3];
+      const section = matched[2];
 
-        if (!messages[lang]) {
-          messages[lang] = {};
-        }
-
-        const data = readFileSync(file);
-        messages[lang][section] = JSON.parse(data);
+      if (!messages[lang]) {
+        messages[lang] = {};
       }
 
-      return messages;
-    } catch (error) {
-      throw new Error(`[vite-plugin-i18n-resources]: ${file} ${error.message}`);
+      const data = readFileSync(file);
+      messages[lang][section] = JSON.parse(data);
     }
-  }, {});
+
+    return messages;
+  } catch (error) {
+    throw new Error(`[vite-plugin-i18n-resources]: ${file} ${error.message}`);
+  }
+}
 
 /**
  * Plugin
@@ -76,8 +75,8 @@ const getMessages = (files) =>
 const viteI18nResources = (options = {}) => {
   const virtualFileId = "vite-i18n-resources";
   const { path } = options;
-  const files = getFiles(path, "json");
-  let messages = getMessages(files);
+  let files = getFiles(path, "json");
+  let messages = files.reduce(getMessages, {});
 
   return {
     name: "vite-plugin-i18n-resources",
@@ -103,7 +102,8 @@ const viteI18nResources = (options = {}) => {
       const matched = file.match(/(.+\/)*(.+)\.(.+)\.json/i);
 
       if (matched && matched.length > 1) {
-        messages = getMessages(path);
+        files = getFiles(path, "json");
+        messages = files.reduce(getMessages, {});
 
         server.ws.send({
           type: "custom",

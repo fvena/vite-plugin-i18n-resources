@@ -31,7 +31,7 @@ var _require = require("fs"),
  */
 
 
-var getFiles = function getFiles() {
+function getFiles() {
   var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "./";
   var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "json";
 
@@ -75,7 +75,7 @@ var getFiles = function getFiles() {
   } catch (error) {
     throw new Error("[vite-plugin-i18n-resources]: ".concat(error.message));
   }
-};
+}
 /**
  * Finds all translation message files within the specified path
  * and generates an object with all translations compatible with i18n
@@ -85,29 +85,27 @@ var getFiles = function getFiles() {
  */
 
 
-var getMessages = function getMessages(files) {
-  return files.reduce(function (messages, file) {
-    try {
-      var matched = file.match(/(.+\/)*(.+)\.(.+)\.json/i);
+function getMessages(messages, file) {
+  try {
+    var matched = file.match(/(.+\/)*(.+)\.(.+)\.json/i);
 
-      if (matched && matched.length > 1) {
-        var lang = matched[3];
-        var section = matched[2];
+    if (matched && matched.length > 1) {
+      var lang = matched[3];
+      var section = matched[2];
 
-        if (!messages[lang]) {
-          messages[lang] = {};
-        }
-
-        var data = readFileSync(file);
-        messages[lang][section] = JSON.parse(data);
+      if (!messages[lang]) {
+        messages[lang] = {};
       }
 
-      return messages;
-    } catch (error) {
-      throw new Error("[vite-plugin-i18n-resources]: ".concat(file, " ").concat(error.message));
+      var data = readFileSync(file);
+      messages[lang][section] = JSON.parse(data);
     }
-  }, {});
-};
+
+    return messages;
+  } catch (error) {
+    throw new Error("[vite-plugin-i18n-resources]: ".concat(file, " ").concat(error.message));
+  }
+}
 /**
  * Plugin
  * Serving a Virtual File with all translations
@@ -119,7 +117,7 @@ var viteI18nResources = function viteI18nResources() {
   var virtualFileId = "vite-i18n-resources";
   var path = options.path;
   var files = getFiles(path, "json");
-  var messages = getMessages(files);
+  var messages = files.reduce(getMessages, {});
   return {
     name: "vite-plugin-i18n-resources",
     resolveId: function resolveId(id) {
@@ -143,7 +141,8 @@ var viteI18nResources = function viteI18nResources() {
       var matched = file.match(/(.+\/)*(.+)\.(.+)\.json/i);
 
       if (matched && matched.length > 1) {
-        messages = getMessages(path);
+        files = getFiles(path, "json");
+        messages = files.reduce(getMessages, {});
         server.ws.send({
           type: "custom",
           event: "locales-update",
