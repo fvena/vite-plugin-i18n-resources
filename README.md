@@ -92,7 +92,7 @@ if (import.meta.hot) {
 }
 ```
 
-## Message Format Syntax
+## Namespace
 
 To avoid namespace collisions when group all translations files by language, each file is stored within a section with its name:
 
@@ -153,7 +153,7 @@ cart.de.json
 
 If you use i18n ALLY, you can configure it as follows:
 
-```
+```json
 "i18n-ally.localesPaths": [ "src/locales" ],
 "i18n-ally.namespace": true,
 "i18n-ally.pathMatcher": "{namespaces}.{locale}.json",
@@ -164,3 +164,5 @@ If you use i18n ALLY, you can configure it as follows:
 
 - [ ] Better docs
 - [ ] Basic test coverage
+
+I'm sorry for my wording, English is not my mother tongue.
