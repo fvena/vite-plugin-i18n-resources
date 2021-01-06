@@ -58,15 +58,16 @@ npm i -D vite-plugin-i18n-resources
 Import this plugin and set the path of translation files.
 
 ```js
-import i18nResources from 'vite-plugin-i18n-resources';
+import i18nResources from "vite-plugin-i18n-resources";
+import { resolve } from "path";
 
 export default {
   plugins: [
     i18nResources({
-      path: 'src/locales',
+      path: resolve(__dirname, "src/locales"),
     }),
-  ]
-}
+  ],
+};
 ```
 
 **2. Import translation message and set them to your vue-i18n instance**
@@ -84,11 +85,11 @@ const i18n = createI18n({
 
 // Only if you want hot module replacement when translation message file change
 if (import.meta.hot) {
-  import.meta.hot.on('locales-update', (data) => {
-    Object.keys(data).forEach(lang => {
+  import.meta.hot.on("locales-update", (data) => {
+    Object.keys(data).forEach((lang) => {
       i18n.global.setLocaleMessage(lang, data[lang]);
     });
-  })
+  });
 }
 ```
 
@@ -160,9 +161,8 @@ If you use i18n ALLY, you can configure it as follows:
 "i18n-ally.keystyle": "nested",
 ```
 
-## Todos
+## Todo
 
-- [ ] Better docs
 - [ ] Basic test coverage
 
 I'm sorry for my wording, English is not my mother tongue.

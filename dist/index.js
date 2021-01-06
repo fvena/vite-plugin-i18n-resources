@@ -31,77 +31,83 @@ var _require = require("fs"),
  */
 
 
-function getFiles() {
+var getFiles = function getFiles() {
   var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "./";
   var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "json";
-  var entries = readdirSync(path, {
-    withFileTypes: true
-  }); //
-  // Get files within the current directory and returns an array with the files paths
-  //
-
-  var files = entries.filter(function (file) {
-    return !file.isDirectory() && file.name.split('.').pop() === type;
-  }).map(function (file) {
-    return "".concat(path, "/").concat(file.name);
-  }); //
-  // Get folders within the current directory
-  //
-
-  var folders = entries.filter(function (folder) {
-    return folder.isDirectory();
-  }); //
-  // Add the found files within the subdirectory to the files array
-  // by calling the current function itself
-  //
-
-  var _iterator = _createForOfIteratorHelper(folders),
-      _step;
 
   try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var folder = _step.value;
-      files.push.apply(files, _toConsumableArray(getFiles("".concat(path, "/").concat(folder.name))));
-    }
-  } catch (err) {
-    _iterator.e(err);
-  } finally {
-    _iterator.f();
-  }
+    var entries = readdirSync(path, {
+      withFileTypes: true
+    }); //
+    // Get files within the current directory and returns an array with the files paths
+    //
 
-  return files;
-}
+    var files = entries.filter(function (file) {
+      return !file.isDirectory() && file.name.split(".").pop() === type;
+    }).map(function (file) {
+      return "".concat(path, "/").concat(file.name);
+    }); //
+    // Get folders within the current directory
+    //
+
+    var folders = entries.filter(function (folder) {
+      return folder.isDirectory();
+    }); //
+    // Add the found files within the subdirectory to the files array
+    // by calling the current function itself
+    //
+
+    var _iterator = _createForOfIteratorHelper(folders),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var folder = _step.value;
+        files.push.apply(files, _toConsumableArray(getFiles("".concat(path, "/").concat(folder.name))));
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+
+    return files;
+  } catch (error) {
+    throw new Error("[vite-plugin-i18n-resources]: ".concat(error.message));
+  }
+};
 /**
  * Finds all translation message files within the specified path
  * and generates an object with all translations compatible with i18n
  *
- * @param {String} path - Files path
+ * @param {Array} files - Array with the files paths
  * @return {Object} - Messages
  */
 
 
-function getMessages() {
-  var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "./";
-  var files = getFiles(path);
-  var result = files.reduce(function (messages, file) {
-    var matched = file.match(/(.+\/)*(.+)\.(.+)\.json/i);
+var getMessages = function getMessages(files) {
+  return files.reduce(function (messages, file) {
+    try {
+      var matched = file.match(/(.+\/)*(.+)\.(.+)\.json/i);
 
-    if (matched && matched.length > 1) {
-      var lang = matched[3];
-      var section = matched[2];
+      if (matched && matched.length > 1) {
+        var lang = matched[3];
+        var section = matched[2];
 
-      if (!messages[lang]) {
-        messages[lang] = {};
+        if (!messages[lang]) {
+          messages[lang] = {};
+        }
+
+        var data = readFileSync(file);
+        messages[lang][section] = JSON.parse(data);
       }
 
-      var data = readFileSync(file);
-      messages[lang][section] = JSON.parse(data);
+      return messages;
+    } catch (error) {
+      throw new Error("[vite-plugin-i18n-resources]: ".concat(file, " ").concat(error.message));
     }
-
-    return messages;
   }, {});
-  return result;
-}
+};
 /**
  * Plugin
  * Serving a Virtual File with all translations
@@ -110,11 +116,12 @@ function getMessages() {
 
 var viteI18nResources = function viteI18nResources() {
   var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var virtualFileId = 'vite-i18n-resources';
+  var virtualFileId = "vite-i18n-resources";
   var path = options.path;
-  var messages = getMessages(path);
+  var files = getFiles(path, "json");
+  var messages = getMessages(files);
   return {
-    name: 'vite-plugin-i18n-resources',
+    name: "vite-plugin-i18n-resources",
     resolveId: function resolveId(id) {
       if (id === virtualFileId) {
         return virtualFileId;
@@ -132,14 +139,14 @@ var viteI18nResources = function viteI18nResources() {
     handleHotUpdate: function handleHotUpdate(_ref) {
       var file = _ref.file,
           server = _ref.server;
-      if (!file.includes(path) || file.split('.').pop() !== 'json') return;
+      if (!file.includes(path) || file.split(".").pop() !== "json") return;
       var matched = file.match(/(.+\/)*(.+)\.(.+)\.json/i);
 
       if (matched && matched.length > 1) {
         messages = getMessages(path);
         server.ws.send({
-          type: 'custom',
-          event: 'locales-update',
+          type: "custom",
+          event: "locales-update",
           data: messages
         });
       }
