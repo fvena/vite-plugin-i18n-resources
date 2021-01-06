@@ -53,7 +53,7 @@ npm i -D vite-plugin-i18n-resources
 
 ## Getting Started
 
-### Config plugin in `vite.config.js`
+**1. Config plugin in `vite.config.js`**
 
 Import this plugin and set the path of translation files.
 
@@ -69,7 +69,7 @@ export default {
 }
 ```
 
-### Import translation message and set them to your vue-i18n instance
+**2. Import translation message and set them to your vue-i18n instance**
 
 ```js
 import { createI18n } from "vue-i18n";
@@ -92,7 +92,7 @@ if (import.meta.hot) {
 }
 ```
 
-### Message Format Syntax
+## Message Format Syntax
 
 To avoid namespace collisions when group all translations files by language, each file is stored within a section with its name:
 
@@ -135,6 +135,18 @@ Now, you can use a translation message by:
   <h1>{{ $t("home.title") }}</h1>
   ...
 </template>
+```
+
+## Filenames
+
+The file names of the translation files should have always the same format:
+
+```
+sectionName.locale.json
+
+home.en.json
+about.en.json
+cart.de.json
 ```
 
 ## Todos
