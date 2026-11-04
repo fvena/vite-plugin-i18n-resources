@@ -1,6 +1,9 @@
 <h1 align="center">vite-plugin-i18n-resources</h1>
 <p align="center">Vite plugin to load i18n translation message files</p>
 
+> [!WARNING]
+> **This project is no longer maintained.** The package stays on npm and keeps working as published, but issues and pull requests will not be answered. Fork it if you need changes.
+
 In small applications, have single json file per language may be sufficient, but if your app grows, you should split it in multiple files per language, to improve your structure.
 
 You may even want to move these files to different locations.
